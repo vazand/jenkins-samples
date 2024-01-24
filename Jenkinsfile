@@ -1,37 +1,68 @@
 def extGroovyScript
+
 pipeline {
     agent any
     environment {
         MY_NAME = 'Vasanth'
     }
-    parameters{
+    parameters {
         string(name: "APP_VERSION", defaultValue: "1.0.1", description: "Current version of the app")
+        choice(choices: ['DEBUG', 'RELEASE'], name: "BUILD_TYPE", description: "Version types")
     }
     stages {
-        stage('loadExternalGroovy') {
+        stage('BUILD') {
             steps {
-                script {
-                    extGroovyScript = load 'scripts.groovy'
+                echo "Build completed...!"
+            }
+        }
+        stage('DEBUG') {
+            when {
+                expression {
+                    params.BUILD_TYPE == 'DEBUG'
                 }
+            }
+            steps {
+                echo "current build type is ${params.BUILD_TYPE}"
+                echo "Debug completed..."
             }
             post {
                 success {
-                    echo "External script loaded successfully!"
+                    echo "Debug success"
+                }
+                failure {
+                    echo "Debug failed"
                 }
             }
         }
-        stage('executeExternalGroovy') {
+        stage('RELEASE') {
+            when {
+                expression {
+                    params.BUILD_TYPE == 'RELEASE'
+                }
+            }
             steps {
-                script {
-                    extGroovyScript.printMessage('My future is the best in India')
-                    extGroovyScript.extScripts()
-                    extGroovyScript.usingEnvs()
+                echo "current build type is ${params.BUILD_TYPE}"
+                echo "Release completed..."
+            }
+            post {
+                success {
+                    echo "Release success"
+                }
+                failure {
+                    echo "Release failed"
                 }
             }
         }
+    }
+}
+
+
+
+
         // we can pass the parameters inside jenkins as this params.APP_VERSION
         // 
-        stage('usingParams'){
+        /* stage('usingParams'){
+            
             steps{
                 script{
                     extGroovyScript.showCurrentVersion(params.APP_VERSION)
@@ -46,11 +77,7 @@ pipeline {
                     echo "Failed to complete"
                 }
                 }
-        }
-    }
-
-}
-
+        } */
         /* stage('Build') {
             steps {
                 echo 'Building the app'
@@ -69,5 +96,28 @@ pipeline {
                 echo "GIT branch Name is ${GIT_BRANCH}"
                 echo "GIT url is ${GIT_URL}"
                 echo "GIT commit message is ${GIT_COMMIT}"
+            }
+        } */
+/*     stages {
+        stage('loadExternalGroovy') {
+            steps {
+                script {
+                    extGroovyScript = load 'scripts.groovy'
+                }
+            }
+            post {
+                success {
+                    echo "External script loaded successfully!"
+                }
+            }
+        }
+        stage('executeExternalGroovy') {
+
+            steps {
+                script {
+                    extGroovyScript.printMessage('My future is the best in India')
+                    extGroovyScript.extScripts()
+                    extGroovyScript.usingEnvs()
+                }
             }
         } */

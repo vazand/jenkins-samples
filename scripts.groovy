@@ -12,7 +12,7 @@ def showCurrentVersion(version){
     println("Current version of the build is -> ${version}")
 }
 def showCurrentVersionByPassingParamData(){
-    println("Current Version is ${params.APP_VERSION} by using param.APP_VERSION")
+    println("Current Version is ${params.APP_VERSION} by using params.APP_VERSION")
 }
 // return this is important 
 // without this you will get 

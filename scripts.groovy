@@ -7,3 +7,8 @@ def usingEnvs(){
 def printMessage(message){
     println("the message you provided is ---- ${message}")
 }
+// return this is important 
+// without this you will get 
+// java.lang.NullPointerException: Cannot invoke method 'tha last method' on null object
+return this
+

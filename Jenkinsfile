@@ -4,6 +4,9 @@ pipeline {
     environment {
         MY_NAME = 'Vasanth'
     }
+    parameters{
+        string(name: "APP_VERSION", defaultValue: "1.0.1", description: "Current version of the app")
+    }
     stages {
         stage('loadExternalGroovy') {
             steps {
@@ -26,7 +29,26 @@ pipeline {
                 }
             }
         }
+        // we can pass the parameters inside jenkins as this params.APP_VERSION
+        // 
+        stage('usingParams'){
+            steps{
+                script{
+                    extGroovyScript.showCurrentVersion(params.APP_VERSION)
+                    extGroovyScript.showCurrentVersionByPassingParamData()
+                }
+            }
+            post{
+                success{
+                    echo "completed!"
+                }
+                failure{
+                    echo "Failed to complete"
+                }
+                }
+        }
     }
+
 }
 
         /* stage('Build') {

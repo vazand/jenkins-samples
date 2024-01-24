@@ -7,6 +7,13 @@ def usingEnvs(){
 def printMessage(message){
     println("the message you provided is ---- ${message}")
 }
+// pass the current version from param here
+def showCurrentVersion(version){
+    println("Current version of the build is -> ${version}")
+}
+def showCurrentVersionByPassingParamData(){
+    println("Current Version is ${params.APP_VERSION} by using param.APP_VERSION")
+}
 // return this is important 
 // without this you will get 
 // java.lang.NullPointerException: Cannot invoke method 'tha last method' on null object

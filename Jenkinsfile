@@ -1,24 +1,39 @@
-pipeline{
+pipeline {
     agent any
-    environment{
-        MY_NAME = "Vasanth"
+    environment {
+        MY_NAME = 'Vasanth'
     }
-    stages{
-        stage('Build'){
-            steps{
-                echo "Building the app"
+    stages {
+        stage('Build') {
+            steps {
+                echo 'Building the app'
                 sh './build.sh'
                 sh '/bin/bash ./build.sh'
                 echo 'Completed!'
             }
         }
-        stage('envPractice'){
-            steps{
+        /*
+            practice how to use environment variables
+         */
+        stage('envPractice') {
+            steps {
                 echo "My branchName is ${BRANCH_NAME}"
                 echo "My Name is ${MY_NAME}"
                 echo "GIT branch Name is ${GIT_BRANCH}"
                 echo "GIT url is ${GIT_URL}"
                 echo "GIT commit message is ${GIT_COMMIT}"
+            }
+        }
+
+        stage('loadExternalScripts') {
+            steps {
+                script {
+                    def externalScript = readFile 'scripts.groovy'
+                    evalute externalScript
+                    printMessage('My future is the best in India')
+                    extScripts()
+                    usingEnvs()
+                }
             }
         }
     }
